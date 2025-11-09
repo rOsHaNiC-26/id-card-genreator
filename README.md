@@ -1,4 +1,4 @@
-# id-card-genreator
+# id-card-generator
 Automated College ID Card Generator using Python and Excel
 
 🧩 Project Description:
