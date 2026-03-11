@@ -130,29 +130,29 @@
 
                         <!-- Built-in Templates Gallery -->
                         <div class="template-gallery" id="template-gallery">
-                            <div class="template-option" data-template="templates/corporate_blue.png" onclick="selectBuiltInTemplate(this)">
-                                <img src="templates/corporate_blue.png" alt="Corporate Blue">
+                            <div class="template-option" data-template-id="corporate_blue" onclick="selectBuiltInTemplate('corporate_blue', this)">
+                                <img id="thumb-corporate_blue" alt="Corporate Blue">
                                 <div class="template-label">
                                     <span class="template-name">Corporate Blue</span>
                                     <span class="template-tag">Professional</span>
                                 </div>
                             </div>
-                            <div class="template-option" data-template="templates/college_green.png" onclick="selectBuiltInTemplate(this)">
-                                <img src="templates/college_green.png" alt="College Green">
+                            <div class="template-option" data-template-id="college_green" onclick="selectBuiltInTemplate('college_green', this)">
+                                <img id="thumb-college_green" alt="College Green">
                                 <div class="template-label">
                                     <span class="template-name">College Green</span>
                                     <span class="template-tag">Academic</span>
                                 </div>
                             </div>
-                            <div class="template-option" data-template="templates/modern_purple.png" onclick="selectBuiltInTemplate(this)">
-                                <img src="templates/modern_purple.png" alt="Modern Purple">
+                            <div class="template-option" data-template-id="modern_purple" onclick="selectBuiltInTemplate('modern_purple', this)">
+                                <img id="thumb-modern_purple" alt="Modern Purple">
                                 <div class="template-label">
                                     <span class="template-name">Modern Purple</span>
                                     <span class="template-tag">Trendy</span>
                                 </div>
                             </div>
-                            <div class="template-option" data-template="templates/minimal_red.png" onclick="selectBuiltInTemplate(this)">
-                                <img src="templates/minimal_red.png" alt="Minimal Red">
+                            <div class="template-option" data-template-id="minimal_red" onclick="selectBuiltInTemplate('minimal_red', this)">
+                                <img id="thumb-minimal_red" alt="Minimal Red">
                                 <div class="template-label">
                                     <span class="template-name">Minimal Red</span>
                                     <span class="template-tag">Clean</span>
@@ -239,165 +239,23 @@
                 </div>
             </div>
 
-            <!-- Layout Config + Preview (shown after template + CSV uploaded) -->
+            <!-- Preview Section (shown after template + CSV uploaded) -->
             <div class="config-section" id="layout-section" style="display:none;">
                 <div class="config-header">
-                    <h3>⚙️ Layout Configuration</h3>
-                    <p>Position elements on your ID card template</p>
+                    <h3>👁️ Card Preview</h3>
+                    <p>Preview how your ID cards will look with actual data</p>
                 </div>
-                <div class="layout-editor">
-                    <!-- Config Panels -->
-                    <div class="config-panels">
-                        <!-- Photo Config -->
-                        <div class="config-panel">
-                            <div class="panel-title">
-                                <span>📸 Photo Placement</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="toggle-photo" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="panel-body" id="photo-config">
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>X Position</label>
-                                        <input type="number" id="photo-x" value="30" min="0" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Y Position</label>
-                                        <input type="number" id="photo-y" value="235" min="0" class="config-input">
-                                    </div>
-                                </div>
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>Width</label>
-                                        <input type="number" id="photo-w" value="210" min="10" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Height</label>
-                                        <input type="number" id="photo-h" value="260" min="10" class="config-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text Config -->
-                        <div class="config-panel">
-                            <div class="panel-title">
-                                <span>📝 Text Placement</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="toggle-text" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="panel-body" id="text-config">
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>X Position</label>
-                                        <input type="number" id="text-x" value="360" min="0" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Y Position</label>
-                                        <input type="number" id="text-y" value="175" min="0" class="config-input">
-                                    </div>
-                                </div>
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>Font Size</label>
-                                        <input type="number" id="text-size" value="28" min="8" max="120" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Line Height</label>
-                                        <input type="number" id="text-lh" value="50" min="10" max="200" class="config-input">
-                                    </div>
-                                </div>
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>Text Color</label>
-                                        <input type="color" id="text-color" value="#000000" class="config-color">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Font</label>
-                                        <select id="text-font" class="config-input">
-                                            <option value="Arial" selected>Arial</option>
-                                            <option value="Inter">Inter</option>
-                                            <option value="Times New Roman">Times New Roman</option>
-                                            <option value="Courier New">Courier New</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Verdana">Verdana</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>Bold First Line</label>
-                                        <label class="toggle-switch small">
-                                            <input type="checkbox" id="text-bold-first" checked>
-                                            <span class="toggle-slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Show Labels</label>
-                                        <label class="toggle-switch small">
-                                            <input type="checkbox" id="text-show-labels" checked>
-                                            <span class="toggle-slider"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Barcode Config -->
-                        <div class="config-panel">
-                            <div class="panel-title">
-                                <span>📊 Barcode Placement</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="toggle-barcode" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                            <div class="panel-body" id="barcode-config">
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>X Position</label>
-                                        <input type="number" id="barcode-x" value="56" min="0" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Y Position</label>
-                                        <input type="number" id="barcode-y" value="528" min="0" class="config-input">
-                                    </div>
-                                </div>
-                                <div class="input-row">
-                                    <div class="input-group">
-                                        <label>Height</label>
-                                        <input type="number" id="barcode-h" value="80" min="20" max="200" class="config-input">
-                                    </div>
-                                    <div class="input-group">
-                                        <label>Format</label>
-                                        <select id="barcode-format" class="config-input">
-                                            <option value="CODE39" selected>Code 39</option>
-                                            <option value="CODE128">Code 128</option>
-                                            <option value="EAN13">EAN-13</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="preview-standalone">
+                    <div class="preview-header">
+                        <h4>Live Preview</h4>
+                        <div class="preview-nav">
+                            <button class="btn-icon" id="prev-preview" onclick="navigatePreview(-1)" disabled>◀</button>
+                            <span id="preview-counter">1 / 1</span>
+                            <button class="btn-icon" id="next-preview" onclick="navigatePreview(1)" disabled>▶</button>
                         </div>
                     </div>
-
-                    <!-- Live Preview -->
-                    <div class="live-preview">
-                        <div class="preview-header">
-                            <h4>Live Preview</h4>
-                            <div class="preview-nav">
-                                <button class="btn-icon" id="prev-preview" onclick="navigatePreview(-1)" disabled>◀</button>
-                                <span id="preview-counter">1 / 1</span>
-                                <button class="btn-icon" id="next-preview" onclick="navigatePreview(1)" disabled>▶</button>
-                            </div>
-                        </div>
-                        <div class="preview-canvas-wrap">
-                            <canvas id="preview-canvas"></canvas>
-                        </div>
+                    <div class="preview-canvas-wrap">
+                        <canvas id="preview-canvas"></canvas>
                     </div>
                 </div>
             </div>
@@ -463,6 +321,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="js/templates.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
