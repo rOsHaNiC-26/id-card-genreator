@@ -119,20 +119,66 @@
 
             <!-- Upload Area -->
             <div class="upload-grid" id="upload-grid">
-                <!-- Template Upload -->
-                <div class="upload-card" id="upload-template">
-                    <div class="upload-zone" data-type="template">
-                        <div class="upload-icon">🖼️</div>
-                        <h4>ID Card Template</h4>
-                        <p>Drop your background template image here</p>
-                        <span class="upload-formats">PNG, JPG, WEBP</span>
+                <!-- Template Selection -->
+                <div class="upload-card upload-card-wide" id="upload-template">
+                    <div class="template-selector" id="template-selector">
+                        <div class="template-selector-header">
+                            <div class="upload-icon">🖼️</div>
+                            <h4>Choose an ID Card Template</h4>
+                            <p>Select a built-in design or upload your own custom template</p>
+                        </div>
+
+                        <!-- Built-in Templates Gallery -->
+                        <div class="template-gallery" id="template-gallery">
+                            <div class="template-option" data-template="templates/corporate_blue.png" onclick="selectBuiltInTemplate(this)">
+                                <img src="templates/corporate_blue.png" alt="Corporate Blue">
+                                <div class="template-label">
+                                    <span class="template-name">Corporate Blue</span>
+                                    <span class="template-tag">Professional</span>
+                                </div>
+                            </div>
+                            <div class="template-option" data-template="templates/college_green.png" onclick="selectBuiltInTemplate(this)">
+                                <img src="templates/college_green.png" alt="College Green">
+                                <div class="template-label">
+                                    <span class="template-name">College Green</span>
+                                    <span class="template-tag">Academic</span>
+                                </div>
+                            </div>
+                            <div class="template-option" data-template="templates/modern_purple.png" onclick="selectBuiltInTemplate(this)">
+                                <img src="templates/modern_purple.png" alt="Modern Purple">
+                                <div class="template-label">
+                                    <span class="template-name">Modern Purple</span>
+                                    <span class="template-tag">Trendy</span>
+                                </div>
+                            </div>
+                            <div class="template-option" data-template="templates/minimal_red.png" onclick="selectBuiltInTemplate(this)">
+                                <img src="templates/minimal_red.png" alt="Minimal Red">
+                                <div class="template-label">
+                                    <span class="template-name">Minimal Red</span>
+                                    <span class="template-tag">Clean</span>
+                                </div>
+                            </div>
+                            <!-- Custom Upload Option -->
+                            <div class="template-option template-upload-option" onclick="document.getElementById('template-input').click()">
+                                <div class="custom-upload-placeholder">
+                                    <span class="custom-upload-icon">➕</span>
+                                    <span>Upload Custom</span>
+                                </div>
+                                <div class="template-label">
+                                    <span class="template-name">Your Design</span>
+                                    <span class="template-tag">Custom</span>
+                                </div>
+                            </div>
+                        </div>
                         <input type="file" id="template-input" accept="image/*" hidden>
-                        <button class="btn btn-sm btn-outline" onclick="document.getElementById('template-input').click()">Browse Files</button>
                     </div>
+
+                    <!-- Selected Template Preview -->
                     <div class="upload-preview" id="template-preview" style="display:none;">
                         <img id="template-preview-img" alt="Template Preview">
                         <div class="upload-preview-info">
                             <span id="template-name"></span>
+                            <button class="btn btn-sm btn-outline" onclick="changeTemplate()">🔄 Change Template</button>
                             <button class="btn-icon" onclick="removeTemplate()" title="Remove">✕</button>
                         </div>
                     </div>

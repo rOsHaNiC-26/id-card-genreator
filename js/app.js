@@ -105,14 +105,7 @@ function handleTemplateFile(file) {
         const img = new Image();
         img.onload = () => {
             state.templateImg = img;
-
-            // Show preview
-            document.querySelector('#upload-template .upload-zone').style.display = 'none';
-            const preview = document.getElementById('template-preview');
-            preview.style.display = 'block';
-            document.getElementById('template-preview-img').src = e.target.result;
-            document.getElementById('template-name').textContent = `${file.name} (${img.width}×${img.height})`;
-
+            showTemplatePreview(e.target.result, `${file.name} (${img.width}×${img.height})`);
             showToast(`Template loaded: ${img.width}×${img.height}px`, 'success');
             checkReadyState();
         };
@@ -200,10 +193,53 @@ function handlePhotoFiles(files) {
 }
 
 // ==================== REMOVE HANDLERS ====================
+// Select a built-in template from the gallery
+function selectBuiltInTemplate(element) {
+    const templatePath = element.dataset.template;
+
+    // Update selection UI
+    document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('selected'));
+    element.classList.add('selected');
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+        state.templateImg = img;
+        state.templateFile = null;
+        const name = element.querySelector('.template-name').textContent;
+        showTemplatePreview(templatePath, `${name} (${img.width}×${img.height})`);
+        showToast(`Template selected: ${name}`, 'success');
+        checkReadyState();
+    };
+    img.onerror = () => {
+        showToast('Failed to load template image.', 'error');
+    };
+    img.src = templatePath;
+}
+
+function showTemplatePreview(src, labelText) {
+    document.getElementById('template-selector').style.display = 'none';
+    const preview = document.getElementById('template-preview');
+    preview.style.display = 'block';
+    document.getElementById('template-preview-img').src = src;
+    document.getElementById('template-name').textContent = labelText;
+}
+
+function changeTemplate() {
+    state.templateImg = null;
+    state.templateFile = null;
+    document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('selected'));
+    document.getElementById('template-selector').style.display = 'block';
+    document.getElementById('template-preview').style.display = 'none';
+    document.getElementById('template-input').value = '';
+    checkReadyState();
+}
+
 function removeTemplate() {
     state.templateImg = null;
     state.templateFile = null;
-    document.querySelector('#upload-template .upload-zone').style.display = 'flex';
+    document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('selected'));
+    document.getElementById('template-selector').style.display = 'block';
     document.getElementById('template-preview').style.display = 'none';
     document.getElementById('template-input').value = '';
     checkReadyState();
