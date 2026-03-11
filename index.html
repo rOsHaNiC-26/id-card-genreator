@@ -121,59 +121,67 @@
             <div class="upload-grid" id="upload-grid">
                 <!-- Template Selection -->
                 <div class="upload-card upload-card-wide" id="upload-template">
+                    <!-- Template Gallery Selection -->
                     <div class="template-selector" id="template-selector">
                         <div class="template-selector-header">
-                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-icon">🎨</div>
                             <h4>Choose an ID Card Template</h4>
-                            <p>Select a built-in design or upload your own custom template</p>
+                            <p>Select a profession-specific design to begin</p>
                         </div>
 
                         <!-- Built-in Templates Gallery -->
                         <div class="template-gallery" id="template-gallery">
                             <div class="template-option" data-template-id="corporate_blue" onclick="selectBuiltInTemplate('corporate_blue', this)">
-                                <img id="thumb-corporate_blue" alt="Corporate Blue">
+                                <img id="thumb-corporate_blue" alt="Corporate Pro">
                                 <div class="template-label">
-                                    <span class="template-name">Corporate Blue</span>
-                                    <span class="template-tag">Professional</span>
+                                    <span class="template-name">Corporate Pro</span>
+                                    <span class="template-tag">Business</span>
                                 </div>
                             </div>
-                            <div class="template-option" data-template-id="college_green" onclick="selectBuiltInTemplate('college_green', this)">
-                                <img id="thumb-college_green" alt="College Green">
+                            <div class="template-option" data-template-id="school_classic" onclick="selectBuiltInTemplate('school_classic', this)">
+                                <img id="thumb-school_classic" alt="School">
                                 <div class="template-label">
-                                    <span class="template-name">College Green</span>
+                                    <span class="template-name">School Classic</span>
                                     <span class="template-tag">Academic</span>
                                 </div>
                             </div>
-                            <div class="template-option" data-template-id="modern_purple" onclick="selectBuiltInTemplate('modern_purple', this)">
-                                <img id="thumb-modern_purple" alt="Modern Purple">
+                            <div class="template-option" data-template-id="modern_event" onclick="selectBuiltInTemplate('modern_event', this)">
+                                <img id="thumb-modern_event" alt="Event">
                                 <div class="template-label">
-                                    <span class="template-name">Modern Purple</span>
-                                    <span class="template-tag">Trendy</span>
-                                </div>
-                            </div>
-                            <div class="template-option" data-template-id="minimal_red" onclick="selectBuiltInTemplate('minimal_red', this)">
-                                <img id="thumb-minimal_red" alt="Minimal Red">
-                                <div class="template-label">
-                                    <span class="template-name">Minimal Red</span>
-                                    <span class="template-tag">Clean</span>
+                                    <span class="template-name">Event Pass</span>
+                                    <span class="template-tag">Vertical</span>
                                 </div>
                             </div>
                             <!-- Custom Upload Option -->
                             <div class="template-option template-upload-option" onclick="document.getElementById('template-input').click()">
                                 <div class="custom-upload-placeholder">
                                     <span class="custom-upload-icon">➕</span>
-                                    <span>Upload Custom</span>
+                                    <span>Custom Upload</span>
                                 </div>
                                 <div class="template-label">
-                                    <span class="template-name">Your Design</span>
-                                    <span class="template-tag">Custom</span>
+                                    <span class="template-name">Your Graphic</span>
+                                    <span class="template-tag">Legacy</span>
                                 </div>
                             </div>
                         </div>
                         <input type="file" id="template-input" accept="image/*" hidden>
                     </div>
 
-                    <!-- Selected Template Preview -->
+                    <!-- Dynamic Assets Panel (Logo, Org Name, etc.) -->
+                    <div id="dynamic-assets-container" class="dynamic-assets-panel" style="display:none;">
+                        <div class="config-header">
+                            <h3>⚙️ Template Customization</h3>
+                            <p>Upload your logo, signature and set organization details</p>
+                        </div>
+                        <div id="dynamic-assets-fields" class="dynamic-asset-grid">
+                            <!-- Populated by JS based on templates.js schema -->
+                        </div>
+                        <div class="template-nav-actions">
+                            <button class="btn btn-outline btn-sm" onclick="changeTemplate()">🔄 Change Template</button>
+                        </div>
+                    </div>
+
+                    <!-- Legacy Template Preview (Hidden usually) -->
                     <div class="upload-preview" id="template-preview" style="display:none;">
                         <img id="template-preview-img" alt="Template Preview">
                         <div class="upload-preview-info">
@@ -239,23 +247,38 @@
                 </div>
             </div>
 
-            <!-- Preview Section (shown after template + CSV uploaded) -->
+            <!-- Preview & Edit Section -->
             <div class="config-section" id="layout-section" style="display:none;">
                 <div class="config-header">
-                    <h3>👁️ Card Preview</h3>
-                    <p>Preview how your ID cards will look with actual data</p>
+                    <h3>👁️ Preview & Edit</h3>
+                    <p>Review each card and make corrections before generating</p>
                 </div>
-                <div class="preview-standalone">
-                    <div class="preview-header">
-                        <h4>Live Preview</h4>
-                        <div class="preview-nav">
-                            <button class="btn-icon" id="prev-preview" onclick="navigatePreview(-1)" disabled>◀</button>
-                            <span id="preview-counter">1 / 1</span>
-                            <button class="btn-icon" id="next-preview" onclick="navigatePreview(1)" disabled>▶</button>
+                <div class="preview-editor-grid">
+                    <!-- Data Editor -->
+                    <div class="data-editor">
+                        <div class="panel-header">
+                            <h4>📝 Edit Details</h4>
+                        </div>
+                        <div id="edit-fields-container" class="edit-fields-grid">
+                            <!-- Fields populated by JS -->
+                        </div>
+                        <div class="edit-actions">
+                            <button class="btn btn-primary btn-sm btn-block" onclick="saveCurrentEdit()">💾 Save Changes</button>
                         </div>
                     </div>
-                    <div class="preview-canvas-wrap">
-                        <canvas id="preview-canvas"></canvas>
+
+                    <!-- Card Preview -->
+                    <div class="preview-standalone">
+                        <div class="preview-header">
+                            <div class="preview-nav">
+                                <button class="btn-icon" id="prev-preview" onclick="navigatePreview(-1)">◀</button>
+                                <span id="preview-counter">1 / 1</span>
+                                <button class="btn-icon" id="next-preview" onclick="navigatePreview(1)">▶</button>
+                            </div>
+                        </div>
+                        <div class="preview-canvas-wrap">
+                            <canvas id="preview-canvas"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,7 +292,10 @@
                     </div>
                     <div class="generate-actions">
                         <button class="btn btn-primary btn-lg" id="generate-btn" onclick="generateAllCards()">
-                            <span>🚀 Generate All Cards</span>
+                            <span>🚀 Generate All PNGs</span>
+                        </button>
+                        <button class="btn btn-ghost btn-lg" id="generate-pdf-btn" onclick="generatePDF()">
+                            <span>📄 Save as PDF</span>
                         </button>
                         <button class="btn btn-outline btn-lg" id="download-zip-btn" onclick="downloadAllAsZip()" style="display:none;">
                             <span>📦 Download ZIP</span>
@@ -321,6 +347,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="js/templates.js"></script>
     <script src="js/app.js"></script>
 </body>

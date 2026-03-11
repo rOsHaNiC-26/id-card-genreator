@@ -1028,6 +1028,112 @@ input, select { font-family: inherit; }
     color: var(--text-muted);
     text-align: center;
 }
+/* ---------- Dynamic Assets Panel ---------- */
+.dynamic-assets-panel {
+    padding: var(--space-xl);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.dynamic-asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.asset-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.asset-field label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.asset-input-wrap {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
+.asset-preview-mini {
+    width: 48px;
+    height: 48px;
+    background: var(--surface-1);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    object-fit: contain;
+    padding: 4px;
+}
+
+.template-nav-actions {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-md);
+}
+
+/* ---------- Preview Editor Grid ---------- */
+.preview-editor-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+.data-editor {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    height: 100%;
+}
+
+.edit-fields-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.edit-field label {
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--accent-indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.edit-actions {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-md);
+}
+
+.btn-block {
+    width: 100%;
+    justify-content: center;
+}
+
+@media (max-width: 992px) {
+    .preview-editor-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 /* ---------- Toast ---------- */
 .toast-container {
