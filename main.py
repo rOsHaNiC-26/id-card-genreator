@@ -3,47 +3,60 @@ import imgkit
 import cv2 as cv
 from barcode import Code39
 from barcode.writer import ImageWriter
+import os
 
-# confrigrations
-path_wkthmltoimage = r'C:\\Users\\ravip\\Downloads\\id-card-genreator-main\\id-card-genreator-main\\kit\\bin\\wkhtmltoimage.exe'
-config = imgkit.config(wkhtmltoimage=path_wkthmltoimage)
-options = {'dpi': 365, 'margin-top': '0in', 'margin-bottom': '0in', 'margin-right': '0in', 'margin-left': '0in',
-           'page-size': 'A8', "orientation": "Landscape", 'disable-smart-shrinking': ''}
+# Get the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-options = {'enable-local-file-access': None,"--quality": 100}
+# confrigrations - Note: wkhtmltopdf needs to be installed separately
+# For now, we'll try without specifying the path (if wkhtmltopdf is in PATH)
+# If this fails, you'll need to download wkhtmltopdf and specify the path
+try:
+    config = imgkit.config()
+except:
+    # If wkhtmltopdf is not found in PATH, try to use it without config
+    config = None
+
+options = {'enable-local-file-access': None, "--quality": 100}
+
 def barcode(name,id):
     my_code = Code39(name, writer=ImageWriter())
-    my_code.save("Barcodes/{id}".format(id=id))
+    my_code.save(os.path.join(current_dir, "Barcodes", str(id)))
 
 
-def htmler(NAME, ID, BRANCH, DOB, Blood_group, Photo,Bar):
-    html = r"""<!DOCTYPE html>
+def htmler(NAME, ID, BRANCH, DOB, Blood_group, Photo, Bar):
+    # Build absolute paths for images
+    front_image_path = os.path.join(current_dir, "front2.png").replace("\\", "/")
+    photo_path = os.path.join(current_dir, "photos", Photo).replace("\\", "/")
+    barcode_path = os.path.join(current_dir, "Barcodes", Bar).replace("\\", "/")
+    
+    html = f"""<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>pccoe_id</title>
     <style>
-            html {
+            html {{
     /* off-white, so body edge is visible in browser */
     background: #eee;
-    }
+    }}
 
-    body {
+    body {{
     height: 56mm;
     width: 90mm;
 
     margin: 0;
-    }
+    }}
 
     /* fill half the height with each face */
-    .face {
+    .face {{
     height: 100%;
     width: 100%;
     position: relative;
-    }
+    }}
 
     /* an image that fills the whole of the front face */
-    .face-front img {
+    .face-front img {{
     position: absolute;
     top: 0;
     left: 0;
@@ -52,44 +65,39 @@ def htmler(NAME, ID, BRANCH, DOB, Blood_group, Photo,Bar):
     width: 100%;
     height: 100%;
     z-index:-1;
-    }
-    #name{
+    }}
+    #name{{
     position: absolute;
     left: 115px;
     top: 56px;
-    }
+    }}
 
     </style>
     </head>
     <body>
-        <div class="face face-front" style="z-index:-1;"><img src="file:///c:\Users\ravip\Downloads\id-card-genreator-main\id-card-genreator-main\front2.png"></div>
+        <div class="face face-front" style="z-index:-1;"><img src="file:///{front_image_path}"></div>
     
-    <div class="photo"><img src="file:///c:\\Users\\ravip\\Downloads\\id-card-genreator-main\\id-card-genreator-main\\photos\\@PHOTO" style="height: 83px;position: absolute;top: 75px;left: 10px;border: 1px solid #000;"></div>
-    <div class="barcode"><img src="file:///c:\Users\ravip\Downloads\id-card-genreator-main\id-card-genreator-main\Barcodes\@Bar" style="height: 32px;position: absolute;top: 169px;left: 18px;"></div>
-    <p id="name">Name :@NAME<br>
-        ID : @ID <br>
-        Branch : @BRANCH<br>
-        Dob : @DOB<br>
-        Blood Group : @Blood_group
+    <div class="photo"><img src="file:///{photo_path}" style="height: 83px;position: absolute;top: 75px;left: 10px;border: 1px solid #000;"></div>
+    <div class="barcode"><img src="file:///{barcode_path}" style="height: 32px;position: absolute;top: 169px;left: 18px;"></div>
+    <p id="name">Name :{NAME}<br>
+        ID : {ID} <br>
+        Branch : {BRANCH}<br>
+        Dob : {DOB}<br>
+        Blood Group : {Blood_group}
     </p>
     </body>
     </html>"""
-    html = html.replace("@NAME", NAME)
-    html = html.replace("@ID", ID)
-    html = html.replace("@BRANCH", BRANCH)
-    html = html.replace("@DOB", DOB)
-    html = html.replace("@Blood_group", Blood_group)
-    html = html.replace("@PHOTO", Photo)
-    html = html.replace("@Bar",Bar)
-    imgkit.from_string(html, 'out.jpg', config=config, options=options)
-    image = cv.imread(r"out.jpg")
+    
+    output_path = os.path.join(current_dir, 'out.jpg')
+    imgkit.from_string(html, output_path, config=config, options=options)
+    image = cv.imread(output_path)
 
     y = 0
     x = 0
     h = 336
     w = 212
     crop_image = image[x:w, y:h]
-    cv.imwrite(r"Ids/{id}.jpg".format(id=ID), crop_image)
+    cv.imwrite(os.path.join(current_dir, "Ids", f"{ID}.jpg"), crop_image)
 
 
 # barcode("Harsh Baheti","1339769")
