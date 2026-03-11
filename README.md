@@ -1,63 +1,164 @@
-# id-card-generator
-Automated College ID Card Generator using Python and Excel
+# 🪪 ID Card Generator
 
-🧩 Project Description:
+> **Generate professional, print-ready ID cards instantly — right in your browser.**
 
-The College ID Card Generator is a Python-based desktop application that automatically creates professional-looking college ID cards for multiple students using data stored in an Excel sheet.
+A powerful web application that lets you batch-generate college/employee ID cards by uploading a template image, CSV data, and student photos. Zero server needed — all processing happens 100% client-side.
 
-This system is built using Tkinter (for GUI), Pandas (for Excel handling), and Pillow (for image processing). The user simply uploads a college logo and an Excel file containing student details such as name, roll number, class, contact, photo path, and signature path.
+🔗 **Live Demo:** [id-card-generator.vercel.app](https://id-card-genreator.vercel.app)
 
-The application then automatically reads the data and generates high-quality ID cards for all students in one go — saving time and ensuring design consistency.
+---
 
-⚙️ Key Features:
+## ✨ Features
 
-🎨 Interactive GUI (Graphical User Interface)
-Built with Tkinter, providing a simple interface for users to browse files and generate IDs easily.
+| Feature | Description |
+|---------|-------------|
+| 🖼️ **Template Upload** | Use any custom ID card background image (PNG, JPG, WEBP) |
+| 📊 **CSV Batch Processing** | Upload a CSV file with student/employee data for bulk generation |
+| 📸 **Photo Integration** | Drag & drop passport-size photos, auto-matched by filename from CSV |
+| 📋 **Smart Column Mapping** | Auto-detects CSV columns (Name, ID, Branch, DOB, Blood Group, Photo) |
+| ⚙️ **Configurable Layout** | Position photo, text, and barcode anywhere on the template with live controls |
+| 👁️ **Live Preview** | See cards update in real time as you adjust settings |
+| 📊 **Barcode Generation** | Supports Code 39, Code 128, and EAN-13 barcode formats |
+| 📦 **Batch Download** | Download individual cards or all at once as a ZIP file |
+| 🔒 **Privacy First** | 100% client-side — your data never leaves your browser |
+| 📱 **Responsive Design** | Works on desktop, tablet, and mobile devices |
 
-📊 Excel Integration (Batch Processing)
-Reads all student data directly from an Excel sheet (using the Pandas library).
+---
 
-🖼️ Dynamic Image Placement
-Automatically fetches student photos and signatures from the specified paths and inserts them into the ID template.
+## 🚀 How It Works
 
-🏫 Customizable College Branding
-Allows uploading of the college logo; supports custom text like college name, course label, academic year, and accreditation info.
+```
+┌──────────────┐     ┌──────────────────┐     ┌────────────────┐
+│  1. Upload   │ ──► │  2. Configure    │ ──► │  3. Download   │
+│  Template,   │     │  Layout, map     │     │  Individual or │
+│  CSV, Photos │     │  columns, preview│     │  batch as ZIP  │
+└──────────────┘     └──────────────────┘     └────────────────┘
+```
 
-⏳ Progress Bar Indicator
-Displays real-time progress during the ID generation process.
+1. **Upload** your ID card template image, student data CSV, and passport photos
+2. **Configure** the layout — position text, photos, and barcodes on the template
+3. **Generate & Download** — preview cards, then download individually or as a ZIP
 
-💾 Automatic File Saving
-Saves each student’s ID card image in an organized ID_Cards/ folder.
+---
 
-🚫 Error Handling
-Detects missing images, incorrect Excel columns, or broken paths, and displays user-friendly error messages.
+## 📁 Project Structure
 
+```
+id-card-generator/
+├── index.html          # Main web application page
+├── css/
+│   └── style.css       # Premium dark theme styling
+├── js/
+│   └── app.js          # Core application logic (canvas rendering, file handling)
+├── vercel.json         # Vercel deployment config
+├── main.py             # Original Python CLI version (imgkit + OpenCV)
+├── main_simple.py      # Simplified Python version (Pillow-based)
+├── data.csv            # Sample CSV data
+├── front2.png          # Sample ID card template
+├── photos/             # Student photo directory
+├── .gitignore          # Git ignore rules
+└── README.md           # This file
+```
 
-🚀 How It Works:
+---
 
-Run the Python script (id_card_generator.py).
+## 🛠️ Tech Stack
 
-Upload the college logo and Excel sheet.
+### Web App (Primary)
+- **HTML5 Canvas** — Client-side image composition and rendering
+- **JavaScript (ES6+)** — Application logic, file handling, state management
+- **CSS3** — Premium dark theme with glassmorphism and animations
+- **[Papa Parse](https://www.papaparse.com/)** — CSV parsing
+- **[JsBarcode](https://github.com/lindell/JsBarcode)** — Barcode generation
+- **[JSZip](https://stuk.github.io/jszip/)** — ZIP file creation for batch download
+- **[FileSaver.js](https://github.com/eligrey/FileSaver.js/)** — File download handling
 
-Click “Generate All IDs”.
+### Python CLI (Legacy)
+- **Pillow (PIL)** — Image processing
+- **python-barcode** — Barcode generation
+- **OpenCV** — Image cropping (original version)
+- **imgkit + wkhtmltopdf** — HTML-to-image conversion (original version)
 
-The program will:
+---
 
-Read all student records.
+## 📊 CSV Format
 
-Insert photos and details into a predesigned ID card layout.
+Your CSV file should contain columns for student/employee details. The app auto-detects common column names:
 
-Save all generated ID cards inside the ID_Cards folder.
+```csv
+Name,Erp Number,Branch,Date of Birth,BLOOD GROUP,photo for id card
+Roshani Chaudhari,19011011C01962,Computer Science,15/08/2001,B+,photo.jpg
+Om Patil,19011011C04836,Mechanical,22/09/2000,AB+,om.png
+```
 
+**Supported column names** (auto-detected):
+- **Name**: `Name`, `Full Name`, `Student Name`
+- **ID**: `Erp Number`, `ID`, `Roll Number`, `Enrollment`
+- **Branch**: `Branch`, `Department`, `Course`, `Program`
+- **DOB**: `Date of Birth`, `DOB`, `Birth Date`
+- **Blood Group**: `Blood Group`, `Blood Type`
+- **Photo**: `photo for id card`, `Photo`, `Image`, `Picture`
 
-🎯 Project Outcome:
+---
 
-This project automates the time-consuming manual ID card creation process into a single-click operation. It’s particularly useful for:
+## 🖥️ Run Locally
 
-Colleges, Schools, and Training Institutes
+### Web App
+```bash
+# Using any static file server
+npx serve .
 
-HR Departments for employee badges
+# Or simply open index.html in your browser
+```
 
-Event Management (participant IDs)
+### Python CLI (Legacy)
+```bash
+# Create virtual environment
+python -m venv .venv
+.venv\Scripts\activate    # Windows
+source .venv/bin/activate  # macOS/Linux
 
-The system demonstrates real-world applications of Python automation, GUI development, and image processing
+# Install dependencies
+pip install -r requirement.txt
+
+# Run
+python main_simple.py
+```
+
+---
+
+## 🌐 Deploy on Vercel
+
+1. Push this repo to GitHub
+2. Go to [vercel.com](https://vercel.com) → **Add New Project**
+3. Import the `id-card-genreator` repository
+4. Click **Deploy** — Vercel auto-detects the static site
+5. Your app will be live at `your-project.vercel.app` 🎉
+
+---
+
+## 🎯 Use Cases
+
+- 🏫 **Colleges & Schools** — Batch-generate student ID cards
+- 🏢 **HR Departments** — Employee badge creation
+- 🎪 **Event Management** — Participant/volunteer ID badges
+- 🏥 **Hospitals** — Staff identification cards
+- 🏋️ **Gyms & Clubs** — Member cards
+
+---
+
+## 👩‍💻 Author
+
+**Roshani Chaudhari** — [@rOsHaNiC-26](https://github.com/rOsHaNiC-26)
+
+---
+
+## 📄 License
+
+This project is open source and available for educational and personal use.
+
+---
+
+<p align="center">
+  Made with ❤️ | All processing happens in your browser — your data never leaves your device.
+</p>
