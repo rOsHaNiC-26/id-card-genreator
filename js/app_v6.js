@@ -34,29 +34,33 @@ function findPhotoInStore(targetName, personNameFallback) {
 
     const findMatch = (name) => {
         if (!name) return null;
-        name = String(name).trim();
-        const targetLower = name.toLowerCase();
-        // Remove common path separators and extensions for base comparison
-        const targetBase = name.split(/[\\/]/).pop().split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        const raw = String(name).trim();
+        const lower = raw.toLowerCase();
+        const clean = lower.replace(/[^a-z0-9]/g, '');
+        const base = raw.split(/[\\/]/).pop().split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
 
-        if (state.photos.has(name)) return state.photos.get(name);
+        // 1. Exact map check
+        if (state.photos.has(raw)) return state.photos.get(raw);
 
+        // 2. Loop through stored images
         for (let [filename, img] of state.photos) {
             const fLower = filename.toLowerCase();
+            const fClean = fLower.replace(/[^a-z0-9]/g, '');
             const fBase = filename.split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            if (fLower === lower || fClean === clean || fBase === base) return img;
             
-            // Match exact name, case-insensitive, or base name without special characters/extensions
-            if (fLower === targetLower || fBase === targetBase || targetLower.includes(fBase) || fLower.includes(targetBase)) {
-                return img;
-            }
+            // Substring matching
+            if (fBase.length > 2 && (base.includes(fBase) || fBase.includes(base))) return img;
+            if (fClean.length > 2 && (clean.includes(fClean) || fClean.includes(clean))) return img;
         }
         return null;
     };
 
-    // 1. Try matching with the value in the "Photo" column
+    // Try target name (from Excel/CSV)
     let match = findMatch(targetName);
     
-    // 2. Fallback: try matching with the person's name (common if photo column is missing/empty)
+    // Fallback to Person Name
     if (!match && personNameFallback) {
         match = findMatch(personNameFallback);
     }
@@ -278,8 +282,17 @@ function processParsedData(data, columns, fileName) {
 }
 
 function handlePhotoFiles(files) {
-    const fileArray = Array.from(files);
+    const fileArray = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (fileArray.length === 0) {
+        showToast('No valid images found!', 'error');
+        return;
+    }
+
     let loaded = 0;
+    let failed = 0;
+    
+    showToast(`Loading ${fileArray.length} photos...`, 'info');
+
     fileArray.forEach(file => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -287,28 +300,45 @@ function handlePhotoFiles(files) {
             img.onload = () => {
                 state.photos.set(file.name, img);
                 loaded++;
-                if (loaded === fileArray.length) {
-                    document.querySelector('#upload-photos .upload-zone').style.display = 'none';
-                    document.getElementById('photos-preview').style.display = 'block';
-                    document.getElementById('photos-count').textContent = `${loaded} Photos`;
-                    
-                    // Simple grid preview
-                    const grid = document.getElementById('photos-grid-mini');
-                    grid.innerHTML = '';
-                    state.photos.forEach((val, key) => {
-                        const i = document.createElement('img');
-                        i.src = val.src;
-                        grid.appendChild(i);
-                    });
-                    
-                    checkReadyState();
-                    showToast(`${loaded} Photos Loaded`, 'success');
-                }
+                updatePhotoProgress(loaded, failed, fileArray.length);
+            };
+            img.onerror = () => {
+                failed++;
+                updatePhotoProgress(loaded, failed, fileArray.length);
             };
             img.src = e.target.result;
         };
+        reader.onerror = () => {
+            failed++;
+            updatePhotoProgress(loaded, failed, fileArray.length);
+        };
         reader.readAsDataURL(file);
     });
+}
+
+function updatePhotoProgress(loaded, failed, total) {
+    if (loaded + failed === total) {
+        document.querySelector('#upload-photos .upload-zone').style.display = 'none';
+        document.getElementById('photos-preview').style.display = 'block';
+        document.getElementById('photos-count').textContent = `${loaded} Photos Loaded ${failed > 0 ? `(${failed} failed)` : ''}`;
+        
+        // Populate mini grid
+        const grid = document.getElementById('photos-grid-mini');
+        grid.innerHTML = '';
+        state.photos.forEach((val, key) => {
+            const container = document.createElement('div');
+            container.style.position = 'relative';
+            const i = document.createElement('img');
+            i.src = val.src;
+            i.title = key;
+            container.appendChild(i);
+            grid.appendChild(container);
+        });
+        
+        checkReadyState();
+        showToast(`${loaded} Photos ready`, 'success');
+        console.log('Photos Loaded:', Array.from(state.photos.keys()));
+    }
 }
 
 // ==================== EDITING LOGIC ====================

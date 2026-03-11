@@ -1,149 +1,80 @@
-# 🪪 ID Card Generator
+# 🪪 Advanced ID Card Generator (V6)
 
-> **Generate professional, print-ready ID cards instantly — right in your browser.**
+> **Professional, batch-processed ID cards instantly — 100% in your browser.**
 
-A powerful web application that lets you batch-generate college/employee ID cards by uploading a template image, CSV data, and student photos. Zero server needed — all processing happens 100% client-side.
+An advanced web application for batch-generating high-quality ID cards. Features built-in premium templates, Excel/CSV support, real-time data editing, and smart photo matching. All processing happens 100% client-side for maximum privacy.
 
 🔗 **Live Demo:** [id-card-generator.vercel.app](https://id-card-genreator.vercel.app)
 
 ---
 
-## ✨ Features
+## ✨ Key Features (Latest Updates)
 
 | Feature | Description |
 |---------|-------------|
-| 🖼️ **Template Upload** | Use any custom ID card background image (PNG, JPG, WEBP) |
-| 📊 **CSV Batch Processing** | Upload a CSV file with student/employee data for bulk generation |
-| 📸 **Photo Integration** | Drag & drop passport-size photos, auto-matched by filename from CSV |
-| 📋 **Smart Column Mapping** | Auto-detects CSV columns (Name, ID, Branch, DOB, Blood Group, Photo) |
-| ⚙️ **Configurable Layout** | Position photo, text, and barcode anywhere on the template with live controls |
-| 👁️ **Live Preview** | See cards update in real time as you adjust settings |
-| 📊 **Barcode Generation** | Supports Code 39, Code 128, and EAN-13 barcode formats |
-| 📦 **Batch Download** | Download individual cards or all at once as a ZIP file |
-| 🔒 **Privacy First** | 100% client-side — your data never leaves your browser |
-| 📱 **Responsive Design** | Works on desktop, tablet, and mobile devices |
+| 🎨 **Premium Templates** | 3 built-in high-quality templates: **Corporate Blue**, **Academic Green**, and **Event Vertical**. |
+| 📊 **Excel & CSV Support** | Directly upload `.xlsx`, `.xls`, or `.csv` files using SheetJS integration. |
+| 📸 **Smart Photo Linker** | Fuzzy matching matches photos by ID, exact filename, or Student Name (case-insensitive). |
+| ✍️ **Live Data Editor** | Edit student/employee details directly in the preview panel before generating. |
+| 📄 **PDF Batch Export** | Generate a single print-ready PDF containing all ID cards in one click. |
+| 🖼️ **Dynamic Branding** | Upload your own organization logo, principal/MD signatures, and titles dynamically. |
+| 🔍 **Diagnostic Panel** | Real-time "Photo Found" status with explicit error messages for missing images. |
+| 🔒 **Privacy First** | No server, no database — your data and photos never leave your computer. |
 
 ---
 
-## 🚀 How It Works
+## 🚀 The V6 Workflow
 
-```
-┌──────────────┐     ┌──────────────────┐     ┌────────────────┐
-│  1. Upload   │ ──► │  2. Configure    │ ──► │  3. Download   │
-│  Template,   │     │  Layout, map     │     │  Individual or │
-│  CSV, Photos │     │  columns, preview│     │  batch as ZIP  │
-└──────────────┘     └──────────────────┘     └────────────────┘
-```
-
-1. **Upload** your ID card template image, student data CSV, and passport photos
-2. **Configure** the layout — position text, photos, and barcodes on the template
-3. **Generate & Download** — preview cards, then download individually or as a ZIP
-
----
-
-## 📁 Project Structure
-
-```
-id-card-generator/
-├── index.html          # Main web application page
-├── css/
-│   └── style.css       # Premium dark theme styling
-├── js/
-│   └── app.js          # Core application logic (canvas rendering, file handling)
-├── vercel.json         # Vercel deployment config
-├── main.py             # Original Python CLI version (imgkit + OpenCV)
-├── main_simple.py      # Simplified Python version (Pillow-based)
-├── data.csv            # Sample CSV data
-├── front2.png          # Sample ID card template
-├── photos/             # Student photo directory
-├── .gitignore          # Git ignore rules
-└── README.md           # This file
-```
+1. **Pick a Template:** Choose from Corporate, School, or Event themes.
+2. **Customize Branding:** Upload your school logo and principal signature.
+3. **Upload Data:** Drop your Excel or CSV file. The app auto-maps your columns.
+4. **Upload Photos:** Drag & drop your folder of images. The app links them automatically.
+5. **Preview & Edit:** Check each card. Fix typos directly in the app.
+6. **Download:** Export everything as a **ZIP (PNGs)** or a **Single PDF**.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Web App (Primary)
-- **HTML5 Canvas** — Client-side image composition and rendering
-- **JavaScript (ES6+)** — Application logic, file handling, state management
-- **CSS3** — Premium dark theme with glassmorphism and animations
-- **[Papa Parse](https://www.papaparse.com/)** — CSV parsing
-- **[JsBarcode](https://github.com/lindell/JsBarcode)** — Barcode generation
-- **[JSZip](https://stuk.github.io/jszip/)** — ZIP file creation for batch download
-- **[FileSaver.js](https://github.com/eligrey/FileSaver.js/)** — File download handling
-
-### Python CLI (Legacy)
-- **Pillow (PIL)** — Image processing
-- **python-barcode** — Barcode generation
-- **OpenCV** — Image cropping (original version)
-- **imgkit + wkhtmltopdf** — HTML-to-image conversion (original version)
+- **Canvas API** — High-precision programmatic rendering.
+- **JavaScript (ES6+)** — Core application and template logic.
+- **[SheetJS (XLSX)](https://sheetjs.com/)** — Industry-standard Excel parsing.
+- **[Papa Parse](https://www.papaparse.com/)** — Robust CSV handling.
+- **[jsPDF](https://github.com/parallax/jsPDF)** — Clean PDF generation.
+- **[JsBarcode](https://github.com/lindell/JsBarcode)** — Dynamic barcode creation.
+- **[JSZip](https://stuk.github.io/jszip/)** — Client-side ZIP compression.
+- **CSS3 (Custom)** — Glassmorphism UI with smooth animations and dark theme.
 
 ---
 
-## 📊 CSV Format
+## 📁 Updated Structure
 
-Your CSV file should contain columns for student/employee details. The app auto-detects common column names:
-
-```csv
-Name,Erp Number,Branch,Date of Birth,BLOOD GROUP,photo for id card
-Roshani Chaudhari,19011011C01962,Computer Science,15/08/2001,B+,photo.jpg
-Om Patil,19011011C04836,Mechanical,22/09/2000,AB+,om.png
 ```
-
-**Supported column names** (auto-detected):
-- **Name**: `Name`, `Full Name`, `Student Name`
-- **ID**: `Erp Number`, `ID`, `Roll Number`, `Enrollment`
-- **Branch**: `Branch`, `Department`, `Course`, `Program`
-- **DOB**: `Date of Birth`, `DOB`, `Birth Date`
-- **Blood Group**: `Blood Group`, `Blood Type`
-- **Photo**: `photo for id card`, `Photo`, `Image`, `Picture`
-
----
-
-## 🖥️ Run Locally
-
-### Web App
-```bash
-# Using any static file server
-npx serve .
-
-# Or simply open index.html in your browser
-```
-
-### Python CLI (Legacy)
-```bash
-# Create virtual environment
-python -m venv .venv
-.venv\Scripts\activate    # Windows
-source .venv/bin/activate  # macOS/Linux
-
-# Install dependencies
-pip install -r requirement.txt
-
-# Run
-python main_simple.py
+id-card-generator/
+├── index.html           # Main UI with V6 Cache-Busting
+├── css/
+│   └── style.css        # Premium dark theme and layout
+├── js/
+│   ├── templates_v6.js  # Programmatic Template Definitions
+│   └── app_v6.js        # Core Logic, Photo Matching, Exporting
+├── vercel.json          # Deployment config
+└── assets/              # Icons and sample assets
 ```
 
 ---
 
-## 🌐 Deploy on Vercel
+## 📊 Sample Data Format
 
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **Add New Project**
-3. Import the `id-card-genreator` repository
-4. Click **Deploy** — Vercel auto-detects the static site
-5. Your app will be live at `your-project.vercel.app` 🎉
+The app auto-detects columns from Excel/CSV:
 
----
+| Name | ID | Branch | DOB | Photo |
+|------|----|--------|-----|-------|
+| Shivani More | 6543 | Computer Sci | 20/03/2003 | shivani.jpg |
 
-## 🎯 Use Cases
-
-- 🏫 **Colleges & Schools** — Batch-generate student ID cards
-- 🏢 **HR Departments** — Employee badge creation
-- 🎪 **Event Management** — Participant/volunteer ID badges
-- 🏥 **Hospitals** — Staff identification cards
-- 🏋️ **Gyms & Clubs** — Member cards
+**Auto-detected keywords:**
+- **Name:** `Full Name`, `Student Name`, `Employee Name`
+- **ID:** `Roll No`, `ERP`, `Enrollment`, `Emp ID`
+- **Photo:** `Photograph`, `Img`, `ID Photo`, `Profile`
 
 ---
 
@@ -153,12 +84,6 @@ python main_simple.py
 
 ---
 
-## 📄 License
-
-This project is open source and available for educational and personal use.
-
----
-
 <p align="center">
-  Made with ❤️ | All processing happens in your browser — your data never leaves your device.
+  Made with ❤️ | 100% Client-Side Processing
 </p>

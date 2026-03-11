@@ -21,6 +21,10 @@
                 <span class="logo-text">ID<span class="logo-accent">Card</span>Gen</span>
             </a>
             <ul class="nav-links">
+                <div class="nav-control-group">
+                    <button class="btn btn-sm btn-outline" onclick="location.reload(true)" title="Force Reload">🔄 Reload</button>
+                    <button class="btn btn-sm btn-outline" onclick="localStorage.clear(); sessionStorage.clear(); location.reload(true);" title="Clear memory and reload">🗑️ Reset App</button>
+                </div>
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#generator">Generator</a></li>
                 <li><a href="https://github.com/rOsHaNiC-26/id-card-genreator" target="_blank" class="nav-github">
@@ -41,6 +45,7 @@
         <div class="hero-content">
             <h1 class="hero-title">
                 Generate <span class="gradient-text">Professional ID Cards</span> Instantly
+                <span style="font-size: 10px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 4px; vertical-align: middle; margin-left: 10px;">V6 ACTIVATED</span>
             </h1>
             <p class="hero-subtitle">
                 Upload your template, CSV data and photos — get print-ready ID cards in seconds. 
@@ -348,7 +353,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="js/templates.js"></script>
-    <script src="js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/templates_v6.js"></script>
+    <script src="js/app_v6.js"></script>
 </body>
 </html>
